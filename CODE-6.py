@@ -118,7 +118,6 @@ for lat_index in range(len(latitude)):
                                                      )
 
 
-# 创建数据集
 data = xr.Dataset(
     {
         "spei": (["time", "lat", "lon"], spei),
@@ -134,3 +133,4 @@ output_file = r"E:\SPEI_results\ACCESS\1all_SPEI3.nc"
 data.to_netcdf(output_file)
 
 print(spei)
+
