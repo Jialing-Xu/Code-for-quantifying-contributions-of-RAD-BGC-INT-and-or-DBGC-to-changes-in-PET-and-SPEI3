@@ -61,23 +61,20 @@ def adjust_longitude(dataset):
 
 
 # #### 温度变化
-# f_TmaxCTL = r"E:\CMIP6\ACCESS\tasmax_Amon_ACCESS-ESM1-5_1pctCO2-bgc_r1i1p1f1_gn_010101-025012.nc"
+# f_TmaxCTL = r"E:\CMIP6\ACCESS\tasmax_Amon_ACCESS-ESM1-5_1pctCO2_r1i1p1f1_gn_010101-025012.nc"
 # TmaxCTLq30 = xr.open_dataset(f_TmaxCTL).tasmax.sel(time=slice('0102-01', '0131-12')) - 273.16
 # TmaxCTLh30 = xr.open_dataset(f_TmaxCTL).tasmax.sel(time=slice('0206-01', '0235-12')) - 273.16
 
-# # f_TminCTL = r"E:\CMIP6\UKESM\tasmin_1pctCO2-bgc_1850-1999.nc"
-# # TminCTLq30 = xr.open_dataset(f_TminCTL).tasmin.sel(time=slice('1851-01', '1880-12')) - 273.16
-# # TminCTLh30 = xr.open_dataset(f_TminCTL).tasmin.sel(time=slice('1955-01', '1984-12')) - 273.16
+# f_TminCTL = r"E:\CMIP6\ACCESS\tasmin_Amon_ACCESS-ESM1-5_1pctCO2_r1i1p1f1_gn_010101-025012.nc"
+# TminCTLq30 = xr.open_dataset(f_TminCTL).tasmin.sel(time=slice('0102-01', '0131-12')) - 273.16
+# TminCTLh30 = xr.open_dataset(f_TminCTL).tasmin.sel(time=slice('0206-01', '0235-12')) - 273.16
 
-# # hou30 = 0.5 * (TmaxCTLh30 + TminCTLh30)
-# # spei_30 = 0.5 * (TmaxCTLq30 + TminCTLq30)
-
-# hou30 = TmaxCTLh30
-# spei_30 = TmaxCTLq30
+# hou30 = 0.5 * (TmaxCTLh30 + TminCTLh30)
+# spei_30 = 0.5 * (TmaxCTLq30 + TminCTLq30)
 
 
-# ##### 降水变化
-# f_CTL = r"E:\CMIP6\ACCESS\pr_Amon_ACCESS-ESM1-5_1pctCO2-bgc_r1i1p1f1_gn_010101-025012.nc"
+# ##### 降水变化 年总和
+# f_CTL = r"E:\CMIP6\ACCESS\pr_Amon_ACCESS-ESM1-5_1pctCO2_r1i1p1f1_gn_010101-025012.nc"
 # prq30 = xr.open_dataset(f_CTL).pr.sel(time=slice('0102-01', '0131-12')) *60*60*24
 # prh30 = xr.open_dataset(f_CTL).pr.sel(time=slice('0206-01', '0235-12')) *60*60*24
 
@@ -92,17 +89,17 @@ def adjust_longitude(dataset):
 
 
 # ##### 相对湿度变化
-# f_CTL = r"E:\CMIP6\MPI\hurs_1pctCO2-bgc_1850-1989.nc"
+# f_CTL = r"E:\CMIP6\MPI\hurs_1pctCO2_1850-1989.nc"
 # spei_30 = xr.open_dataset(f_CTL).hurs.sel(time=slice('1851-01', '1880-12'))
 # hou30 = xr.open_dataset(f_CTL).hurs.sel(time=slice('1955-01', '1984-12'))
 
 
-##### 净辐射变化
-f_rlsCTL = r"E:\CMIP6\UKESM\rls_1pctCO2-bgc_1850-1999.nc"
+##### 净辐射变化 年总和
+f_rlsCTL = r"E:\CMIP6\UKESM\rls_1pctCO2_1850-1999.nc"
 rlsq30 = xr.open_dataset(f_rlsCTL).rls.sel(time=slice('1851-01', '1880-12'))
 rlsh30 = xr.open_dataset(f_rlsCTL).rls.sel(time=slice('1955-01', '1984-12'))  
 
-f_rssCTL = r"E:\CMIP6\UKESM\rss_1pctCO2-bgc_1850-1999.nc"
+f_rssCTL = r"E:\CMIP6\UKESM\rss_1pctCO2_1850-1999.nc"
 rssq30 = xr.open_dataset(f_rssCTL).rss.sel(time=slice('1851-01', '1880-12'))
 rssh30 = xr.open_dataset(f_rssCTL).rss.sel(time=slice('1955-01', '1984-12'))
 
@@ -117,16 +114,9 @@ hou30 = xr.where(rnh30 < 0, 0, rnh30)
 
 
 # ##### 风速变化
-# f_CTL = r"E:\CMIP6\MPI\sfcWind_1pctCO2-rad_1850-1989.nc"
+# f_CTL = r"E:\CMIP6\MPI\sfcWind_1pctCO2_1850-1989.nc"
 # spei_30 = xr.open_dataset(f_CTL).sfcWind.sel(time=slice('1851-01', '1880-12')) * (4.87 / log(67.8 * 10 - 5.42))
 # hou30 = xr.open_dataset(f_CTL).sfcWind.sel(time=slice('1955-01', '1984-12')) * (4.87 / log(67.8 * 10 - 5.42))
-
-
-# ##### 二氧化碳变化
-# f_CTL = r"E:\CMIP6\ACCESS\co2s_1%.nc"
-# spei_30 = xr.open_dataset(f_CTL).co2s.sel(time=slice('1851-01', '1880-12'))
-# hou30 = xr.open_dataset(f_CTL).co2s.sel(time=slice('1955-01', '1984-12'))
-
 
 
 
@@ -148,6 +138,7 @@ co2 = Hou30 - SPEI3
 
 data = adjust_longitude(co2)
 rdata = bilinear_interpolation(data)
-rdata.to_netcdf(r"E:\CMIP6\UKESM\RN_bgc.nc")
+rdata.to_netcdf(r"E:\CMIP6\UKESM\RN_1pct.nc")
+
 
 
