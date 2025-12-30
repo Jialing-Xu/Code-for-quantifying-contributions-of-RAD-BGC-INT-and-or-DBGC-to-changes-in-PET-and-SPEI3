@@ -10,7 +10,6 @@ from math import pi, sin, cos, tan, log
 # months = co2CTLq30['time.month'].values
 # co2q30 = co2CTL.sel(month=months).values
 
-# # 创建数据集
 # data1 = xr.Dataset(
 #     {"co2s": (["time", "lat", "lon"], co2q30)},
 #     coords={
@@ -208,5 +207,6 @@ no_int = UCTLh30 - Uint
 no_rad.to_netcdf(r"E:\mingan_results\UKESM\1U_no_rad.nc")
 no_bgc.to_netcdf(r"E:\mingan_results\UKESM\1U_no_bgc.nc")
 no_int.to_netcdf(r"E:\mingan_results\UKESM\1U_no_int.nc")
+
 
 
